@@ -2,6 +2,7 @@ package lib.ui.ios;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.NavigationUI;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class iOSNavigationUI extends NavigationUI {
 
@@ -11,7 +12,7 @@ public class iOSNavigationUI extends NavigationUI {
         VIEW_LIST_BUTTON = "id:Saved";
         CLOSE_POPUP_ICON = "xpath://XCUIElementTypeButton[@name='Close']";
     }
-    public iOSNavigationUI(AppiumDriver driver) {
+    public iOSNavigationUI(RemoteWebDriver driver) {
         super(driver);
     }
 }

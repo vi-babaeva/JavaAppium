@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class NavigationUI extends MainPageObject{
 
@@ -13,7 +14,7 @@ abstract public class NavigationUI extends MainPageObject{
             CANCEL_BUTTON,
             CLOSE_POPUP_ICON;
 
-    public NavigationUI(AppiumDriver driver) {
+    public NavigationUI(RemoteWebDriver driver) {
         super(driver);
     }
 

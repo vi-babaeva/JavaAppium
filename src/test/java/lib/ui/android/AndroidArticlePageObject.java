@@ -2,6 +2,7 @@ package lib.ui.android;
 
 import io.appium.java_client.AppiumDriver;
 import lib.ui.ArticlePageObject;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class AndroidArticlePageObject extends ArticlePageObject {
     static {
@@ -20,7 +21,7 @@ public class AndroidArticlePageObject extends ArticlePageObject {
         ARTICLE_WITH_TITLE_TO_STAY = "xpath://*[@text='JavaScript']";
     }
 
-    public AndroidArticlePageObject(AppiumDriver driver){
+    public AndroidArticlePageObject(RemoteWebDriver driver){
         super(driver);
     }
 
