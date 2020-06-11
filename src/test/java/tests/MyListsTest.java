@@ -1,4 +1,4 @@
-package tests;
+/*package tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
@@ -57,3 +57,4 @@ public class MyListsTest extends CoreTestCase {
                 article_subtitle);
     }
 }
+*/
