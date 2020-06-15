@@ -33,7 +33,7 @@ public class SearchTests extends CoreTestCase {
     public void testSearch(){
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
-        //SearchPageObject.skipClick();
+        SearchPageObject.skipClick();
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.waitForSearchResult("bject-oriented programming language");
@@ -43,7 +43,7 @@ public class SearchTests extends CoreTestCase {
     public void testCancelSearch(){
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
-        //SearchPageObject.skipClick();
+        SearchPageObject.skipClick();
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.waitForCancelButtonToAppear();

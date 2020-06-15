@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.WebElement;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -12,6 +11,7 @@ abstract public class ArticlePageObject extends MainPageObject {
             FOOTER_ELEMENT,
             OPTIONS_BUTTON,
             OPTIONS_ADD_TO_MY_LIST_BUTTON,
+            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
             MORE_OPTIONS_BUTTON,
             CREATE_NEW_LIST_OVERLAY,
             MY_LIST_NAME_INPUT,
@@ -20,6 +20,7 @@ abstract public class ArticlePageObject extends MainPageObject {
             SHOW_TAB_BUTTON,
             ADD_ARTICLE_TO_READ_LIST_BUTTON,
             ARTICLE_TO_DELETE,
+            REMOVE_FROM_SAVED_BUTTON,
             ARTICLE_WITH_TITLE_TO_STAY;
 
     public ArticlePageObject(RemoteWebDriver  driver) {
@@ -64,6 +65,10 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void addFirstArticleToMyList(String name_of_folder){
+        if (Platform.getInstance().isMv()) {
+            this.removeArticleFromSavedIfItAdded();
+        }
+
         this.waitForElementAndClick(OPTIONS_BUTTON,
                 "Cannot find 'More options' button",
                 10);
@@ -113,12 +118,38 @@ abstract public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
-    public void swipeToDeleteOneArticle(){
-        this.swipeElementToLeft(ARTICLE_TO_DELETE,
-                "Cannot find 'Object-oriented programming language' article topic");
+    public void removeArticleFromSavedIfItAdded(){
+        if (this.isElementPresent(OPTIONS_ADD_TO_MY_LIST_BUTTON)) {
+            this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,
+                    "Cannot click button to remove an article from saved",
+                    3);
+            this.waitForElementPresent(OPTIONS_ADD_TO_MY_LIST_BUTTON,
+                    "Cann ot find button to add an article to saved list after removing it from this list before",
+                    5);
+        }
+    }
+
+    private static String getRemoveButtonByTitle(String article_subtitle) {
+        return REMOVE_FROM_SAVED_BUTTON.replace("{SUBTITLE}", article_subtitle);
+    }
+
+    public void swipeToDeleteOneArticle (String article_subtitle) {
+        if ((Platform.getInstance().isIOS()) || (Platform.getInstance().isAndroid())) {
+            this.swipeElementToLeft(ARTICLE_TO_DELETE,
+                    "Cannot find 'Object-oriented programming language' article topic");
+        } else {
+            String remove_locator = getRemoveButtonByTitle(article_subtitle);
+            this.waitForElementAndClick(remove_locator,
+                    "Cannot click button to remove article from saved",
+                    10);
+        }
 
         if (Platform.getInstance().isIOS()) {
             this.clickElementToTheRightUpperCorner(ARTICLE_TO_DELETE, "Cannot delete button on article");
+        }
+
+        if (Platform.getInstance().isMv()) {
+            driver.navigate().refresh();
         }
     }
 

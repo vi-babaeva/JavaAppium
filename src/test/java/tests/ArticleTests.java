@@ -13,7 +13,7 @@ public class ArticleTests extends CoreTestCase {
     public void testCompareArticleSubtitle(){
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
-        //SearchPageObject.skipClick();
+        SearchPageObject.skipClick();
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");

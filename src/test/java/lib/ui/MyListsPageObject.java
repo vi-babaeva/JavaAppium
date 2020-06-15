@@ -1,6 +1,6 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class MyListsPageObject extends MainPageObject {
 
@@ -11,7 +11,7 @@ public class MyListsPageObject extends MainPageObject {
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
     }
 
-    public MyListsPageObject(AppiumDriver driver) {
+    public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

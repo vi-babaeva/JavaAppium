@@ -1,4 +1,4 @@
-/*package tests;
+package tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
@@ -11,17 +11,24 @@ import org.junit.Test;
 public class MyListsTest extends CoreTestCase {
 
     private static final String name_of_folder = "Learning programming";
+    private static final String
+            login = "vi-babaeva",
+            password ="qwerty098";
+
     @Test
     public void testSaveTwoArticlesToTestListAndDeleteOneArticle(){
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
-        SearchPageObject.skipClick();
+        if ((Platform.getInstance().isAndroid()) || (Platform.getInstance().isIOS())) {
+            SearchPageObject.skipClick();
+        }
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForSubtitleElement();
+        String article_subtitle = ArticlePageObject.getArticleSubtitle();
 
         if (Platform.getInstance().isAndroid()) {
             ArticlePageObject.addFirstArticleToMyList(name_of_folder);
@@ -32,24 +39,43 @@ public class MyListsTest extends CoreTestCase {
 
             SearchPageObject.initSearchInput();
             SearchPageObject.typeSearchLine("Java");
-            SearchPageObject.clickByArticleWithSubstring("High-level programming language");
+            SearchPageObject.clickByArticleWithSubstring("igh-level programming language");
             ArticlePageObject.addSecondArticleToMyList(name_of_folder);
             MyListsPageObject.openFolderByName(name_of_folder);
             NavigationUI.goToMyList();
-        } else {
+        } else if (Platform.getInstance().isIOS()) {
             ArticlePageObject.addArticlesToMySaved();
             NavigationUI NavigationUI = NavigationUIFactory.get(driver);
             NavigationUI.backToSearchList();
-            SearchPageObject.clickByArticleWithSubstring("High-level programming language");
+            SearchPageObject.clickByArticleWithSubstring("igh-level programming language");
             ArticlePageObject.addArticlesToMySaved();
             NavigationUI.backToSearchList();
             NavigationUI.clickOnCancelButton();
             NavigationUI.goToMyList();
             NavigationUI.closeSyncSavedArticlesPopUp();
+        } else {
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForSubtitleElement();
+
+            assertEquals("We are not on the same page after login",
+                    article_subtitle,
+                    ArticlePageObject.getArticleSubtitle());
+
+            ArticlePageObject.addArticlesToMySaved();
+            SearchPageObject.initSearchInput();
+            SearchPageObject.typeSearchLine("Java");
+            SearchPageObject.clickByArticleWithSubstring("igh-level programming language");
+            ArticlePageObject.addArticlesToMySaved();
+
+            NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+            NavigationUI.goToMyList();
         }
-        ArticlePageObject.swipeToDeleteOneArticle();
+        ArticlePageObject.swipeToDeleteOneArticle(article_subtitle);
         ArticlePageObject.checkThatOneArticleWasDeleted();
-        String article_subtitle = ArticlePageObject.getArticleSubtitle();
 
         assertEquals(
                 "We see unexpected subtitle!",
@@ -57,4 +83,3 @@ public class MyListsTest extends CoreTestCase {
                 article_subtitle);
     }
 }
-*/

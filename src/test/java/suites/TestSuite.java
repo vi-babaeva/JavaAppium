@@ -10,7 +10,7 @@ import tests.*;
         ArticleTests.class,
         ChangeAppConditionTests.class,
         GetStartedTest.class,
-        //MyListsTest.class,
+        MyListsTest.class,
         SearchTests.class
 })
 
